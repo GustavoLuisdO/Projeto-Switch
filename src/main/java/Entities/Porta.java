@@ -2,7 +2,6 @@ package Entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Porta implements Serializable
@@ -13,20 +12,20 @@ public class Porta implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPorta;
 
-    @OneToOne(cascade=CascadeType.ALL) // esse parâmetro na anotação @OneToOne você esta informando para hibernate que toda vez que você salvar um switch você vai salvar/atualizar
-    @JoinColumn(name = "fk_idSwitch", nullable = false)
-    private Switch idSwitch;
+    //@OneToOne(cascade=CascadeType.ALL) // esse parâmetro na anotação @OneToOne você esta informando para hibernate que toda vez que você salvar um switch você vai salvar/atualizar
+    @Column(name = "fk_idSwitch", nullable = false)
+    private int idSwitch;
 
     @Column(nullable = false)
     private int numeroPorta;
 
-    @Column(nullable = false)
-    private int numeroIP; // [0-9]{3}{.}[0-9]{3}{.}[0-9]{3}{.}[0-9]{3}
+    @Column(nullable = false, columnDefinition="text")
+    private String numeroIP; // [0-9]{3}{.}[0-9]{3}{.}[0-9]{3}{.}[0-9]{3}
 
     // construtor
     public Porta() {}
 
-    public Porta(Integer idPorta, Switch idSwitch, int numeroPorta, int numeroIP) {
+    public Porta(Integer idPorta, int idSwitch, int numeroPorta, String numeroIP) {
         this.idPorta = idPorta;
         this.idSwitch = idSwitch;
         this.numeroPorta = numeroPorta;
@@ -53,11 +52,11 @@ public class Porta implements Serializable
         this.idPorta = idPorta;
     }
 
-    public Switch getIdSwitch() {
+    public int getIdSwitch() {
         return idSwitch;
     }
 
-    public void setIdSwitch(Switch idSwitch) {
+    public void setIdSwitch(int idSwitch) {
         this.idSwitch = idSwitch;
     }
 
@@ -69,11 +68,11 @@ public class Porta implements Serializable
         this.numeroPorta = numeroPorta;
     }
 
-    public int getNumeroIP() {
+    public String getNumeroIP() {
         return numeroIP;
     }
 
-    public void setNumeroIP(int numeroIP) {
+    public void setNumeroIP(String numeroIP) {
         this.numeroIP = numeroIP;
     }
 }
