@@ -11,8 +11,8 @@
                       value="jdbc:mysql://172.16.4.138:3306/Switchs?useSSL=false&amp;serverTimezone=UTC" />
 
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.user" value="gluis" />
-            <property name="javax.persistence.jdbc.password" value="Gust@voLu1s" />
+            <property name="javax.persistence.jdbc.user" value="<user>" />
+            <property name="javax.persistence.jdbc.password" value="<password>" />
 
             <property name="hibernate.hbm2ddl.auto" value="update" />
 
