@@ -21,8 +21,8 @@ public class Switch implements Serializable
     // construtor
     public Switch() {}
 
-    public Switch(Integer idSwitch, String nomeSwitch, int quantidadePortas) {
-        this.idSwitch = idSwitch;
+    public Switch(String nomeSwitch, int quantidadePortas) {
+        this.idSwitch = null;
         this.nomeSwitch = nomeSwitch;
         this.quantidadePortas = quantidadePortas;
     }

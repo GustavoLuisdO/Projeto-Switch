@@ -2,10 +2,7 @@ package Services;
 
 import Data.ConnectionDB;
 import Entities.Porta;
-
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class PortaServices
 {
@@ -93,21 +90,6 @@ public class PortaServices
         catch (Exception e){
             System.out.println("Erro ao listar as Portas! "+ e.getMessage());
             return null;
-        }
-    }
-
-    public boolean validationIP(String ip){
-        String ipRegex = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
-                            "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-
-        Pattern pattern = Pattern.compile(ipRegex);
-        Matcher matcher = pattern.matcher(ip);
-
-        if (matcher.matches()){
-           return true;
-        }
-        else {
-            return false;
         }
     }
 }

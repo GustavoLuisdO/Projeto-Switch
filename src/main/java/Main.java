@@ -1,233 +1,194 @@
-import Controllers.SwitchController;
-import Services.PortaServices;
-import Services.ScanServices;
-import Services.SwitchServices;
+import Controller.PortaController;
+import Controller.SwitchController;
+
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args)
-    {
-        ScanServices scan = new ScanServices();
-        SwitchServices switchServices = new SwitchServices(); // serviços da classe Switch
-        PortaServices portaServices = new PortaServices(); // serviços da classe Porta
+    public static void main(String[] args) {
+        SwitchController switchController = new SwitchController(); // controlador da classe Switch
+        PortaController portaController = new PortaController(); // controlador da classe Porta
+        Scanner scan = new Scanner(System.in);
+        int continua = 1;
+        for (int pare = 0; pare < continua; pare++) {
+            System.out.println("Selecione uma opção\n");
 
-        SwitchController switchController = new SwitchController();
+            System.out.println("1 - Inserir Switch\n" +
+                                "2 - Atualizar Switch\n" +
+                                "3 - Excluir Switch\n" +
+                                "4 - Consultar Switch\n" +
+                                "5 - Lista de Switchs\n" +
+                                "6 - Inserir Porta\n" +
+                                "7 - Atualizar Porta\n" +
+                                "8 - Excluir Porta\n" +
+                                "9 - Consultar Porta\n" +
+                                "10 - Lista de Portas\n");
 
-        //Scanner scan = new Scanner(System.in);
+            System.out.print("Escolha sua opção: ");
+            int opcao = scan.nextInt();
+            clearBuffer(scan);
 
-        System.out.println("Selecione uma opção\n");
-
-        System.out.println("1 - Inserir Switch\n" +
-                            "2 - Atualizar Switch\n" +
-                            "3 - Excluir Switch\n" +
-                            "4 - Consultar Switch\n" +
-                            "5 - Lista de Switchs\n" +
-                            "6 - Inserir Porta\n" +
-                            "7 - Atualizar Porta\n" +
-                            "8 - Excluir Porta\n" +
-                            "9 - Consultar Porta\n" +
-                            "10 - Lista de Portas\n");
-
-        System.out.print("Escolha sua opção: ");
-        int opcao = scan.getScan().nextInt();
-        scan.clearBuffer(scan.getScan());
-
-        switch (opcao)
-        {
-            case 1: // Insert Switch
+            switch (opcao) {
+                case 1: // Insert Switch
                     System.out.print("Nome do Switch: ");
-                    String nomeSwitch = scan.getScan().nextLine();
+                    String nome = scan.nextLine();
 
                     System.out.print("\nQuantidade de portas: ");
-                    int qtdPortas = scan.getScan().nextInt();
-                    scan.clearBuffer(scan.getScan());
+                    int portas = scan.nextInt();
+                    clearBuffer(scan);
 
-                    switchController.newSwitch(nomeSwitch, qtdPortas);
-                break;
+                    switchController.newSwitch(nome, portas);
+                    break;
 
-            case 2: // Update Switch
-                    switchController.updateSwitch();
-                break;
+                case 2: // Update Switch
+                    System.out.print("Informe o ID do Switch que deseja atualizar: ");
+                    int idUpdate = scan.nextInt();
+                    clearBuffer(scan);
 
-            case 3: // Delete Switch
+                    switchController.findSwitch(idUpdate);
+
+                    System.out.print("Informe o nome: ");
+                    String nomeSwitch = scan.nextLine();
+
+                    System.out.print("Informe a quantidade de portas: ");
+                    int qtdPortas = scan.nextInt();
+                    clearBuffer(scan);
+
+                    System.out.println("Tem certeza que deseja atualizar o Switch? (1 para sim ou 2 para não)");
+                    int confirmacaoUpdate = scan.nextInt();
+                    clearBuffer(scan);
+                    if (confirmacaoUpdate == 1) {
+                        switchController.updateSwitch(idUpdate, nomeSwitch, qtdPortas);
+                    } else {
+                        System.out.println("Operação cancelada!");
+                    }
+                    break;
+
+                case 3: // Delete Switch
                     System.out.print("Informe o ID do Switch que deseja excluir: ");
                     int idDelete = scan.nextInt();
                     clearBuffer(scan);
 
-                    Switch deleteSwitch = switchServices.findById(idDelete);
+                    switchController.findSwitch(idDelete);
 
                     System.out.println("Tem certeza que deseja excluir o Switch? (1 para sim ou 2 para não)");
                     int confirmacaoDelete = scan.nextInt();
                     clearBuffer(scan);
-
-                    if (confirmacaoDelete == 1){
-                        switchServices.delete(deleteSwitch);
-                    }
-                    else{
+                    if (confirmacaoDelete == 1) {
+                        switchController.deleteSwitch(idDelete);
+                    } else {
                         System.out.println("Operação cancelada!");
                     }
-                break;
+                    break;
 
-            case 4: // FindById Switch
+                case 4: // FindById Switch
                     System.out.print("Informe o ID do Switch que deseja buscar: ");
                     int findId = scan.nextInt();
 
-                    switchServices.findById(findId);
-                break;
+                    switchController.findSwitch(findId);
+                    break;
 
-            case 5: // FindAll Switch
-                    for (Switch s: switchServices.findAll()){
-                        System.out.println("Id: "+ s.getIdSwitch() +"\n"+
-                                            "Nome: "+ s.getNomeSwitch() +"\n"+
-                                            "Quantidade de portas: "+ s.getQuantidadePortas() +"\n");
-                    }
-                break;
+                case 5: // FindAll Switch
+                    switchController.findAllSwitchs();
+                    break;
 
-            case 6: // Insert Porta
-                    Porta newPorta = new Porta();
-
+                case 6: // Insert Porta
                     System.out.print("Informe o ID do Switch: ");
-
                     int idSwitch = scan.nextInt();
                     clearBuffer(scan);
 
-                    Switch verificaId = switchServices.findById(idSwitch);
+                    switchController.findSwitch(idSwitch);
 
-                    if (verificaId == null){
-                        System.out.println("Id inválido!");
+                    System.out.print("Número da porta: ");
+                    int numPorta = scan.nextInt();
+                    clearBuffer(scan);
+
+                    System.out.print("Número do IP: ");
+                    String ip = scan.nextLine();
+
+                    if (portaController.validationIP(ip)) {
+                        portaController.newPorta(idSwitch, numPorta, ip);
+                    } else {
+                        System.out.println("Formato de ip inválido!");
                     }
-                    else {
-                        newPorta.setIdSwitch(idSwitch);
+                    break;
 
-                        System.out.print("Número da porta: ");
-                        newPorta.setNumeroPorta(scan.nextInt());
-                        clearBuffer(scan);
-
-                        System.out.print("Número do IP: ");
-
-                        String ip = scan.nextLine();
-
-                        if (portaServices.validationIP(ip)){
-                            newPorta.setNumeroIP(ip);
-
-                            portaServices.insert(newPorta);
-                        }
-                        else {
-                            System.out.println("Formato de ip inválido!");
-                        }
-                    }
-                break;
-
-            case 7: // Update Porta
+                case 7: // Update Porta
                     System.out.print("Informe o ID da Porta que deseja atualizar: ");
                     int idUpdatePorta = scan.nextInt();
                     clearBuffer(scan);
 
-                    Porta updatePorta = portaServices.findById(idUpdatePorta);
+                    portaController.findPorta(idUpdatePorta);
 
-                    System.out.println("Escolha qual campo deseja alterar\n" +
-                            "1 - Id do Switch\n" +
-                            "2 - Número da porta\n" +
-                            "3 - Número do IP\n" +
-                            "4 - Todos os campos");
-                    System.out.print("Escolha sua opção: ");
-                    int escolhaUpdate = scan.nextInt();
+                    System.out.print("Informe o ID do Switch: ");
+                    int idSwitchUpdate = scan.nextInt();
                     clearBuffer(scan);
-                    switch (escolhaUpdate)
-                    {
-                        case 1: // ID do Switch
-                            System.out.print("Informe o ID do Switch: ");
-                            updatePorta.setIdSwitch(scan.nextInt());
-                            clearBuffer(scan);
-                            break;
-                        case 2: // Número da porta
-                            System.out.print("Informe o novo numero da porta: ");
-                            updatePorta.setNumeroPorta(scan.nextInt());
-                            clearBuffer(scan);
-                            break;
-                        case 3: // IP
-                                System.out.print("Informe o novo IP: ");
-                                String ip = scan.nextLine();
 
-                                if (portaServices.validationIP(ip)){
-                                    updatePorta.setNumeroIP(ip);
-                                    clearBuffer(scan);
-                                }
-                                else {
-                                    System.out.println("Formato de ip inválido!");
-                                }
-                            break;
-                        case 4: // Todos os campos
-                            System.out.print("Informe o ID do Switch: ");
-                            updatePorta.setIdSwitch(scan.nextInt());
-                            clearBuffer(scan);
+                    System.out.print("Informe o numero da porta: ");
+                    int numeroPorta = scan.nextInt();
+                    clearBuffer(scan);
 
-                            System.out.print("Informe o novo numero da porta: ");
-                            updatePorta.setNumeroPorta(scan.nextInt());
-                            clearBuffer(scan);
+                    System.out.print("Informe o IP: ");
+                    String newIP = scan.nextLine();
 
-                            System.out.print("Informe o novo IP: ");
-                            String newIP = scan.nextLine();
-
-                            if (portaServices.validationIP(newIP)){
-                                updatePorta.setNumeroIP(newIP);
-                            }
-                            else {
-                                System.out.println("Formato de ip inválido!");
-                            }
-                            break;
-                        default:
-                            System.out.println("Opção não encontrada!");
-                    }
+                    portaController.validationIP(newIP);
 
                     System.out.println("Tem certeza que deseja atualizar a Porta? (1 para sim ou 2 para não)");
                     int confirmacaoUpdatePorta = scan.nextInt();
                     clearBuffer(scan);
-                    if (confirmacaoUpdatePorta == 1){
-                        portaServices.update(updatePorta);
-                    }
-                    else{
+                    if (confirmacaoUpdatePorta == 1) {
+                        portaController.updatePorta(idUpdatePorta, idSwitchUpdate, numeroPorta, newIP);
+                    } else {
                         System.out.println("Operação cancelada!");
                     }
-                break;
+                    break;
 
-            case 8: // Delete Porta
+                case 8: // Delete Porta
                     System.out.print("Informe o ID da Porta que deseja excluir: ");
                     int idDeletePorta = scan.nextInt();
                     clearBuffer(scan);
 
-                    Porta deletePorta = portaServices.findById(idDeletePorta);
+                    portaController.findPorta(idDeletePorta);
 
                     System.out.println("Tem certeza que deseja excluir a Porta? (1 para sim ou 2 para não)");
                     int confirmacaoDeletePorta = scan.nextInt();
                     clearBuffer(scan);
-
-                    if (confirmacaoDeletePorta == 1){
-                        portaServices.delete(deletePorta);
-                    }
-                    else{
+                    if (confirmacaoDeletePorta == 1) {
+                        portaController.deletePorta(idDeletePorta);
+                    } else {
                         System.out.println("Operação cancelada!");
                     }
-                break;
+                    break;
 
-            case 9: // FindById Porta
+                case 9: // FindById Porta
                     System.out.print("Informe o ID da Porta que deseja buscar: ");
                     int findIdPorta = scan.nextInt();
 
-                    portaServices.findById(findIdPorta);
-                break;
+                    //portaServices.findById(findIdPorta);
+                    portaController.findPorta(findIdPorta);
+                    break;
 
-            case 10: // FindAll Porta
-                    for (Porta p: portaServices.findAll()){
-                        System.out.println("Id: "+ p.getIdPorta() +"\n"+
-                                "Id do Switch: "+ p.getIdSwitch() +"\n"+
-                                "Número da Porta: "+ p.getNumeroPorta() +"\n"+
-                                "Número do IP: "+ p.getNumeroIP() +"\n");
-                    }
-                break;
+                case 10: // FindAll Porta
+                    portaController.findAllPortas();
+                    break;
 
-            default:
-                System.out.println("Opção não encontrada!");
+                default:
+                    System.out.println("Opção não encontrada!");
+            }
+            System.out.print("--------------------------------------------\n" +
+                             "Deseja continuar? (1 para sim ou 2 para não) ");
+            int cont = scan.nextInt();
+            if (cont == 1){
+                continua ++;
+            }else{
+                System.out.println("Execução encerrada!");
+            }
         }
-        scan.closeScan();
+        scan.close();
+    }
+
+    private static void clearBuffer(Scanner scanner) {
+        if (scanner.hasNextLine()) {
+            scanner.nextLine();
+        }
     }
 }

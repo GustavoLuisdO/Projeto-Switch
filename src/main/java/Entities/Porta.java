@@ -25,8 +25,8 @@ public class Porta implements Serializable
     // construtor
     public Porta() {}
 
-    public Porta(Integer idPorta, int idSwitch, int numeroPorta, String numeroIP) {
-        this.idPorta = idPorta;
+    public Porta(int idSwitch, int numeroPorta, String numeroIP) {
+        this.idPorta = null;
         this.idSwitch = idSwitch;
         this.numeroPorta = numeroPorta;
         this.numeroIP = numeroIP;

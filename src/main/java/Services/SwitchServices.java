@@ -2,12 +2,12 @@ package Services;
 
 import Data.ConnectionDB;
 import Entities.Switch;
-
 import java.util.List;
 
 public class SwitchServices
 {
     private static ConnectionDB conn;
+    //private static SwitchController switchController;
 
     public Switch findById(int id){
         try
@@ -15,7 +15,6 @@ public class SwitchServices
             conn.openConnection();
 
             Switch switchFindById = conn.getEm().find(Switch.class, id);
-
             System.out.println(switchFindById);
             return switchFindById;
         }
