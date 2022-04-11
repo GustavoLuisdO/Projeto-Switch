@@ -7,7 +7,6 @@ import java.util.List;
 public class SwitchServices
 {
     private static ConnectionDB conn;
-    //private static SwitchController switchController;
 
     public Switch findById(int id){
         try

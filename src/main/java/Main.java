@@ -8,8 +8,9 @@ public class Main {
         SwitchController switchController = new SwitchController(); // controlador da classe Switch
         PortaController portaController = new PortaController(); // controlador da classe Porta
         Scanner scan = new Scanner(System.in);
-        int continua = 1;
-        for (int pare = 0; pare < continua; pare++) {
+
+        int continuar = 1;
+        for (int pare = 0; pare < continuar; pare++) {
             System.out.println("Selecione uma opção\n");
 
             System.out.println("1 - Inserir Switch\n" +
@@ -26,7 +27,6 @@ public class Main {
             System.out.print("Escolha sua opção: ");
             int opcao = scan.nextInt();
             clearBuffer(scan);
-
             switch (opcao) {
                 case 1: // Insert Switch
                     System.out.print("Nome do Switch: ");
@@ -174,11 +174,13 @@ public class Main {
                 default:
                     System.out.println("Opção não encontrada!");
             }
+
             System.out.print("--------------------------------------------\n" +
                              "Deseja continuar? (1 para sim ou 2 para não) ");
             int cont = scan.nextInt();
+            clearBuffer(scan);
             if (cont == 1){
-                continua ++;
+                continuar ++;
             }else{
                 System.out.println("Execução encerrada!");
             }
